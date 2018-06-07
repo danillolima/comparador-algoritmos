@@ -1,0 +1,30 @@
+Atividade Prática Supervisionada (Grupos)
+ Formação dos Grupos:
+
+ Deve haver, no máximo, 3 alunos por grupo
+Linguagem de Programação:
+
+Utilizar linguagem C ou C++
+Objetivo do Trabalho:
+
+Desenvolver uma aplicação que permita ao usuário comparar métodos de ordenação.
+
+Implementar, no mínimo, 7 métodos de ordenação interna.
+6 deles serão vistos em aula (devem ser utilizadas as implementações vistas em aula)
+Seleção, Inserção, Bolha, Shellsort, Intercalação (Merge-sort) e Quiksort
+1 deles o grupo deverá pesquisar:
+Cada grupo deverá pesquisar um método diferente
+A escolha do método deverá ser aprovada pelo professor
+O grupo que solicitar primeiro determinado método, terá o direito de utilizá-lo.
+Implementar uma interface gráfica para comparar os métodos:
+A interface deverá exibir gráficos
+Deverá haver a possibilidade de comparar métodos quanto ao número de comparações com a chave
+Deverá haver a possibilidade de comparar métodos quanto ao número de trocas
+Deverá permitir ao usuário a entrada de instâncias e a escolha dos métodos a serem comparados
+Critérios de Avaliação:
+
+Os requisitos definidos acima são os requisitos mínimos. A avaliação do trabalho também considerará a definição de quais critérios os alunos definirão como relevantes para comparação de dois ou mais métodos (além dos definidos no enunciado). Exemplo: poderão ser implementadas variações recursivas e iterativas de alguns métodos, poderão ser comparados vários tamanhos de instâncias, melhor caso, pior caso etc. A definição de quais fatores podem ser comparados faz parte da avaliação do trabalho.
+
+Observação
+
+Um dos membros do grupo deve submeter pelo Moodle os nomes dos integrantes do grupo

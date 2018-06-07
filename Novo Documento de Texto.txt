@@ -1,0 +1,5 @@
+gcc -I iup/include -I iup -L iup main.c -liup -lgdi32 -luser32 -lcomdlg32 -lcomctl32 -luuid -lole32
+
+gcc -I iup/include -I iup -I cd/include -L cd -L iup plot.c -o b.exe -liup_plot -liupcontrols -liup -lcd -lgdi32 -luser32 -lcomdlg32 -lcomctl32 -luuid -lole32
+gcc -I iup/include -I iup -I cd/include -L cd -L iup order.c main.c -o main.exe -liup_plot -liupcontrols -liup -lcd -lgdi32 -luser32 -lcomdlg32 -lcomctl32 -luuid -lole32
+http://webserver2.tecgraf.puc-rio.br/iup/en/tutorial/tutorial.html

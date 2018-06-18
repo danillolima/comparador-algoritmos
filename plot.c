@@ -247,7 +247,7 @@ static void InitPlots(void)
   //IupSetAttribute(plot[3], "MARGINBOTTOM", "30");
 
   {
-    const char * kLables[12] = {"jan","feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+    const char * kLables[12] = {"1","feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
     const double kData[12] = {10,20,30,40,50,60,70,80,90,0,10,20};
     IupPlotBegin(plot[3], 1);
     for (theI=0;  theI<12; theI++) 

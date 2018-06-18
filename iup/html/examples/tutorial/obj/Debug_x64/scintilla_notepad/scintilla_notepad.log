@@ -1,0 +1,21 @@
+﻿Build started 28-May-18 8:20:51 AM.
+     1>Project "D:\tecgraf\iup\html\examples\tutorial\scintilla_notepad\scintilla_notepad.vcxproj" on node 8 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "..\obj\Debug_x64\scintilla_notepad\scintill.E1563874.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Id:\tecgraf\iup\include /Id:\tecgraf\im\include /Id:\tecgraf\cd\include /Z7 /nologo /W4 /WX- /Od /D _CRT_SECURE_NO_DEPRECATE /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\obj\Debug_x64\scintilla_notepad\\" /Fd"..\obj\Debug_x64\scintilla_notepad\vc120.pdb" /Gd /TC /errorReport:prompt scintilladlg_notepad.c
+         scintilladlg_notepad.c
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D TEC_64 /l"0x0409" /nologo /fo"..\obj\Debug_x64\scintilla_notepad\iup.res" d:\tecgraf\iup/etc/iup.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\bin\x64\scintilla_notepad.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:d:\tecgraf\iup\lib\Debug_64 /LIBPATH:d:\tecgraf\cd\lib\Debug_64 /LIBPATH:d:\tecgraf\im\lib\Debug_64 /LIBPATH:d:\tecgraf\iup\lib\vc12_64 /LIBPATH:d:\tecgraf\cd\lib\vc12_64 /LIBPATH:d:\tecgraf\im\lib\vc12_64 /LIBPATH:d:\tecgraf\freetype\lib\vc12_64 /LIBPATH:d:\tecgraf\zlib\lib\vc12_64 iupimglib.lib imm32.lib iup_scintilla.lib comctl32.lib iup.lib cd.lib iupcd.lib im.lib freetype6.lib zlib1.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST:NO /DEBUG /PDB:"..\bin\x64\scintilla_notepad.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\bin\x64\scintilla_notepad.lib" /MACHINE:X64 ..\obj\Debug_x64\scintilla_notepad\iup.res
+         ..\obj\Debug_x64\scintilla_notepad\scintilladlg_notepad.obj
+         scintilla_notepad.vcxproj -> D:\tecgraf\iup\html\examples\tutorial\scintilla_notepad\..\bin\x64\scintilla_notepad.exe
+       FinalizeBuildStatus:
+         Deleting file "..\obj\Debug_x64\scintilla_notepad\scintill.E1563874.tlog\unsuccessfulbuild".
+         Touching "..\obj\Debug_x64\scintilla_notepad\scintill.E1563874.tlog\scintilla_notepad.lastbuildstate".
+     1>Done Building Project "D:\tecgraf\iup\html\examples\tutorial\scintilla_notepad\scintilla_notepad.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.70

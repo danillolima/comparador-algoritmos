@@ -6,6 +6,35 @@ http://webserver2.tecgraf.puc-rio.br/iup/en/tutorial/tutorial.html
 
 gcc -I iup/include -I iup -I cd/include -L cd -L iup simple_plot.c -o simple.exe -liup_plot -liupcontrols -liup -lcd -lgdi32 -luser32 -lcomdlg32 -lcomctl32 -luuid -lole32
 
+cd
+cdcontextplus
+cdgl
+freetype6
+ftgl
+iup_plot
+iup_cd
+iupgl
+iup
+
+
+
+
+gcc -o fullmain.o -L iup -L cd -I iup/include -I cd/include main.c order.c iup/libiupcontrols.a iup/libiup.a iup/libiup_plot.a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ====// Just some test of codes =====
 IupPlotBegin(grafico[0], 0);

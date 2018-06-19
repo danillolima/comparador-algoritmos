@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "order.h"
 /*
@@ -11,7 +12,8 @@
 */
 stats selectionSort(int v[], int size){
 	stats relSelection;
-	int i, j, t, qtdComp = 0, qtdTroca = 0;
+	int i, j, t;
+	long long int qtdComp = 0, qtdTroca = 0;
 	for (i = 0; i < size; i++){
         j = i + 1;
         while(j < size){
@@ -32,7 +34,8 @@ stats selectionSort(int v[], int size){
 }
 
 stats insectionSort(int v[], int size){
-	int i, j, t, qtdComp = 0, qtdTroca = 0;
+	int i, j, t;
+	long long int qtdComp = 0, qtdTroca = 0;
 	stats relSelection;
 	for (i = 1; i < size; i++){
 		t = v[i];
@@ -53,9 +56,9 @@ stats insectionSort(int v[], int size){
 }
 
 stats bubbleSort(int v[], int size){
-	int t, i, j, qtdComp = 0, qtdTroca = 0;
+	int t, i, j;
+	long long int 	qtdComp = 0, qtdTroca = 0;
 	stats relSelection;
-	
 	for(i = 0; i < size; i++){
 		for(j = size-1; j > 0; j--){
 			qtdComp++;
@@ -74,7 +77,8 @@ stats bubbleSort(int v[], int size){
 }
 
 stats shellSort(int *A, int size){
-    int i , j , chave, qtdComp = 0, qtdTroca = 0, h = 1;
+    int i , j , chave, h = 1;
+	long long int qtdComp = 0, qtdTroca = 0;
 	stats relSelection;
     do{
         h = h * 3 + 1;
@@ -102,7 +106,8 @@ stats shellSort(int *A, int size){
 }
 
 stats radixSort(int *A, int size) {
-    int i, *b, maior = A[0], exp = 1, qtdComp = 0, qtdTroca = 0;
+    int i, *b, maior = A[0], exp = 1; 
+	long long int qtdComp = 0, qtdTroca = 0;
 	stats relSelection;
     b = (int *) calloc(size, sizeof(int));
 

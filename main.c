@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 #include <iup.h>
 #include "iupcontrols.h"
@@ -102,9 +103,10 @@ int main(int argc, char **argv){
 }
 
 static int start(Ihandle *self){
-	Ihandle *checkb[7], *texto, *tabs, *aux, *grafico[2], *vboxG[2], *tabsI;
+	Ihandle *checkb[7], *texto, *tabs, *aux, *grafico[3], *vboxG[3], *tabsI;
 	array numeros;
 	int *nAux;
+	clock_t start, end;
 	/*
 		Ponteiro para gráfico
 		- grafico[0] -> Ponteiro com número de comparaçoes
@@ -113,6 +115,7 @@ static int start(Ihandle *self){
 	
 	grafico[0] = IupPlot(); 
 	grafico[1] = IupPlot();
+	grafico[2] = IupPlot();
 	
 	
 	IupSetAttribute(grafico[0], "TITLE", "Resultado: Comparações por algortimo");
@@ -139,6 +142,18 @@ static int start(Ihandle *self){
     IupSetAttribute(grafico[1], "MARGINBOTTOM", "50");
     IupSetAttribute(grafico[1], "TITLEFONTSIZE", "16");
 	
+	IupSetAttribute(grafico[2], "TITLE", "Resultado: Tempo por algoritimo");
+	IupSetAttribute(grafico[2], "FONT", "Helvetica, 9");
+	IupSetAttribute(grafico[2], "LEGENDSHOW", "YES");
+	IupSetAttribute(grafico[2], "AXS_XLABEL", "Tamanho da entrada(N)");
+	IupSetAttribute(grafico[2], "AXS_YLABEL", "Tempo de máquina");
+	IupSetAttribute(grafico[2], "AXS_XCROSSORIGIN", "Yes");
+	IupSetAttribute(grafico[2], "AXS_YCROSSORIGIN", "Yes");
+	IupSetAttribute(grafico[2], "MARGINTOP", "40");
+    IupSetAttribute(grafico[2], "MARGINLEFT", "100");
+    IupSetAttribute(grafico[2], "MARGINBOTTOM", "50");
+    IupSetAttribute(grafico[2], "TITLEFONTSIZE", "16");
+	
 	tabs = IupGetHandle("tabsR");
 	texto = IupGetHandle("texto");
 	/* 
@@ -158,15 +173,30 @@ static int start(Ihandle *self){
 		Esses if`s verificarão se o metódo foi selecionado e adicionara os pontos deles no gráfico
 	*/
 	if(strcmp(IupGetAttribute(checkb[0], "VALUE"), "ON") == 0){
-		addPoints(grafico, insectionSort(nAux, numeros.n), "Insection Sort");
+		stats infosInsection;
+		start = clock();
+		infosInsection  = insectionSort(nAux, numeros.n);
+		end = clock();
+		infosInsection.time = ((double) (end - start)) / CLK_TCK;
+		addPoints(grafico, infosInsection, "Insection Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);
 	}
 	if(strcmp(IupGetAttribute(checkb[1], "VALUE"), "ON")  == 0){
-		addPoints(grafico, bubbleSort(nAux, numeros.n), "Bubble Sort");
+		stats infosBubble;
+		start = clock();
+		infosBubble = bubbleSort(nAux, numeros.n);
+		end = clock();
+		infosBubble.time = ((double) (end - start)) / CLK_TCK;
+		addPoints(grafico, infosBubble, "Bubble Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
 	}
 	if(strcmp(IupGetAttribute(checkb[2], "VALUE"), "ON") == 0){
-		addPoints(grafico, shellSort(nAux, numeros.n), "Shell Sort");
+		stats infosShell;
+		start = clock();
+		infosShell = shellSort(nAux, numeros.n);
+		end = clock();
+		infosShell.time = ((double) (end - start)) / CLK_TCK;
+		addPoints(grafico, infosShell, "Shell Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
 	}
 	if(strcmp(IupGetAttribute(checkb[3], "VALUE"), "ON") == 0){
@@ -174,7 +204,10 @@ static int start(Ihandle *self){
 		infosMerge.qtdChan = 0;
 		infosMerge.qtdComp = 0;
 		infosMerge.qtdElements = numeros.n;
+		start = clock();
 		mergeSort(nAux, 0, numeros.n-1, &infosMerge);
+		end = clock();
+		infosMerge.time = ((double) (end - start)) / CLK_TCK;;
 		addPoints(grafico, infosMerge, "Merge Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
 	}
@@ -183,16 +216,29 @@ static int start(Ihandle *self){
 		infosQuick.qtdChan = 0;
 		infosQuick.qtdComp = 0;
 		infosQuick.qtdElements = numeros.n;
+		start = clock();
 		quickSort(nAux, 0, numeros.n-1, &infosQuick);
+		end = clock();
+		infosQuick.time = ((double) (end - start)) / CLK_TCK;
 		addPoints(grafico, infosQuick, "Quick Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
 	}
 	if(strcmp(IupGetAttribute(checkb[5], "VALUE"), "ON") == 0){
-		addPoints(grafico, radixSort(nAux, numeros.n), "Radix Sort");
+		stats infosRadix;
+		start = clock();
+		infosRadix = radixSort(nAux, numeros.n);
+		end = clock();
+		infosRadix.time = ((double) (end - start)) / CLK_TCK;
+		addPoints(grafico, infosRadix, "Radix Sort");
 		copyKeys(numeros.v, nAux, 0, numeros.n);
 	}
 	if(strcmp(IupGetAttribute(checkb[6], "VALUE"), "ON") == 0){
-			addPoints(grafico, selectionSort(nAux, numeros.n), "Selection Sort");
+		stats infosSelection;
+		start = clock();
+		infosSelection = selectionSort(nAux, numeros.n);
+		end = clock();
+		infosSelection.time = ((double) (end - start)) / CLK_TCK;
+		addPoints(grafico, infosSelection, "Selection Sort");
 	}	
 	
 	free(numeros.v);
@@ -204,10 +250,13 @@ static int start(Ihandle *self){
 	
 	vboxG[0] = IupVbox(grafico[0], NULL);
 	vboxG[1] = IupVbox(grafico[1], NULL);
+	vboxG[2] = IupVbox(grafico[2], NULL);
+	
 	IupSetAttribute(vboxG[0], "TABTITLE", "Gráfico de Comparações");
 	IupSetAttribute(vboxG[1], "TABTITLE", "Gráfico de Trocas");
-	tabsI = IupTabs(vboxG[0], vboxG[1], NULL);
-	
+	IupSetAttribute(vboxG[2], "TABTITLE", "Gráfico de Tempo");
+	tabsI = IupTabs(vboxG[0], vboxG[1], vboxG[2], NULL);
+
 	aux = IupHbox(tabsI, NULL);
 	IupSetAttribute(aux, "TABTITLE", "Resultado");
 	IupSetAttribute(aux, "MARGIN", "4x4");
@@ -270,6 +319,14 @@ void addPoints(Ihandle** plot, stats infos, char* type){
 	IupSetAttribute(plot[1], "DS_LEGEND", type);
 	IupSetAttribute(plot[1], "DS_LINEWIDTH", "1");	
 	
+	
+	y = infos.time;
+	IupPlotBegin(plot[2], 0);
+		IupPlotAdd(plot[2], 0, 0);
+		IupPlotAdd(plot[2], x, y);
+	IupPlotEnd(plot[2]);
+	IupSetAttribute(plot[2], "DS_LEGEND", type);
+	IupSetAttribute(plot[2], "DS_LINEWIDTH", "1");
 }
 
 int * copyVetor(int v[], int size){

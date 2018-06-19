@@ -4,8 +4,9 @@ typedef struct infos stats;
 
 struct infos{
 	int qtdElements; // Quantidade de Elementos ordenados
-	int qtdComp; // Quantidade de comparacoes
-	int qtdChan; // Quantidade de trocas  
+	long long int qtdComp; // Quantidade de comparacoes
+	long long int qtdChan; // Quantidade de trocas  
+	double time;
 };
 
 typedef struct v array;
@@ -25,7 +26,7 @@ int partition(int *, int, int, stats *);
 void merge(int *, int, int, int, stats *);
 void printVetor(int *, int);
 void printStatistics(stats info);
-/*fazer */
+/* fazer */
 int * randomNumbers(int);
 
 #endif

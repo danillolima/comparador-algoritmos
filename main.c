@@ -66,8 +66,8 @@ int main(int argc, char **argv){
 	IupSetCallback(exec, "ACTION", (Icallback)start);
 	IupSetCallback(g, "ACTION", (Icallback)gerarNumeros);
 	radio =  IupRadio(IupVbox(
-				IupToggle("Ordenados", NULL),
-				IupToggle("Semi ordenados", NULL),
+				//IupToggle("Ordenados", NULL),
+				//IupToggle("Semi ordenados", NULL),
 				IupToggle("Aleatórios", NULL), NULL
 				));
 	tempText = IupText(NULL);

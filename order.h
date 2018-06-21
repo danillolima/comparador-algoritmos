@@ -6,7 +6,7 @@ struct infos{
 	int qtdElements; // Quantidade de Elementos ordenados
 	long long int qtdComp; // Quantidade de comparacoes
 	long long int qtdChan; // Quantidade de trocas  
-	double time;
+	long time;
 };
 
 typedef struct v array;

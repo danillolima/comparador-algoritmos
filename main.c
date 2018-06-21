@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 #include <iup.h>
 #include "iupcontrols.h"
@@ -19,6 +21,9 @@ static int start(Ihandle *self);
 void addPoints(Ihandle** plot, stats infos, char* type);
 void copyKeys(int a[], int b[], int start, int end);
 int * copyVetor(int v[], int size);
+void addLine(Ihandle** column, stats infos, char * method);
+
+static int gerarNumeros(Ihandle *self);
 
 int main(int argc, char **argv){
 	//int v[] = {2000, 30, 5, 6, 8, 4, 34, 45, 5, 45, 453};
@@ -30,7 +35,7 @@ int main(int argc, char **argv){
 	//quickSort(v, 11);
 	//radixSort(v, 11);
 	//printVetor(v, 11);
-	Ihandle *dlg, *multitext, *hbox, *checkb[7], *label, *fill, *f1, *f2, *options, *right, *buttons, *radio, *tempText, *exec, *dados;
+	Ihandle *dlg, *multitext, *hbox, *checkb[7], *g, *label, *fill, *f1, *f2, *options, *right, *buttons, *radio, *tempText, *exec, *dados;
 	IupOpen(&argc, &argv);
 	IupControlsOpen();
 	IupPlotOpen();
@@ -54,11 +59,12 @@ int main(int argc, char **argv){
 	IupSetHandle("texto", multitext);
 	fill = IupFill();
 	buttons = IupFrame(IupHbox(
-								IupButton("Gerar numeros", NULL),
+								g = IupButton("Gerar numeros", NULL),
 								exec = IupButton("Executar", NULL),
 								NULL
 								));											
 	IupSetCallback(exec, "ACTION", (Icallback)start);
+	IupSetCallback(g, "ACTION", (Icallback)gerarNumeros);
 	radio =  IupRadio(IupVbox(
 				IupToggle("Ordenados", NULL),
 				IupToggle("Semi ordenados", NULL),
@@ -67,6 +73,7 @@ int main(int argc, char **argv){
 	tempText = IupText(NULL);
 	IupSetAttribute(tempText, "MASK", "[0-9]*");
 	IupSetAttribute(tempText, "SPIN", "ON");
+	IupSetHandle("qtdNumeros", tempText);
 	options = IupVbox(
 				   IupLabel("Selecione os algoritmos: "),
 				   checkb[0],
@@ -102,11 +109,33 @@ int main(int argc, char **argv){
 	return EXIT_SUCCESS;
 }
 
+static int gerarNumeros(Ihandle *self){
+	int *numeros;
+	int i, n, qtd;
+	char buff[100];
+	Ihandle *input, *texto;
+	texto = IupGetHandle("texto");;
+	input = IupGetHandle("qtdNumeros");
+	qtd = IupGetInt(input, "VALUE");
+	//numeros = malloc(input * sizeof(int));
+	srand(time(NULL));
+	for(i = 0; i < qtd; i++){
+		int n;
+		n = rand() % 100;
+		sprintf(buff, "%d", n);
+		IupSetAttribute(texto, "APPEND", buff);
+	
+	}
+	//free(numeros);
+	return IUP_DEFAULT;
+}
+
+
+
 static int start(Ihandle *self){
-	Ihandle *checkb[7], *texto, *tabs, *aux, *grafico[3], *vboxG[3], *tabsI;
+	Ihandle *checkb[7], *texto, *tabs, *aux, *grafico[3], *vboxG[4], *tabsI, *column[4];
 	array numeros;
 	int *nAux;
-	clock_t start, end;
 	/*
 		Ponteiro para gráfico
 		- grafico[0] -> Ponteiro com número de comparaçoes
@@ -172,74 +201,164 @@ static int start(Ihandle *self){
 	/*
 		Esses if`s verificarão se o metódo foi selecionado e adicionara os pontos deles no gráfico
 	*/
+	vboxG[3] = IupHbox(
+			column[0] = IupVbox(IupLabel("Algoritmo"), NULL),
+			column[1] = IupVbox(IupLabel("Quantidade de trocas"), NULL),
+			column[2] = IupVbox(IupLabel("Quantidade de comparaçoes"), NULL),
+			column[3] = IupVbox(IupLabel("Tempo"), NULL), NULL);
+	
+	long mtime, secs, usecs; 
+	struct timeval start, end;
+	char buff[200];
+	
 	if(strcmp(IupGetAttribute(checkb[0], "VALUE"), "ON") == 0){
+		
 		stats infosInsection;
-		start = clock();
+		
+	
+		gettimeofday(&start, NULL);
+		
 		infosInsection  = insectionSort(nAux, numeros.n);
-		end = clock();
-		infosInsection.time = ((double) (end - start)) / CLK_TCK;
+		
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosInsection.time = mtime;
+		
 		addPoints(grafico, infosInsection, "Insection Sort");
+		
 		copyKeys(numeros.v, nAux, 0, numeros.n);
+		
+		addLine(column, infosInsection ,"Insection Sort");
+
 	}
 	if(strcmp(IupGetAttribute(checkb[1], "VALUE"), "ON")  == 0){
 		stats infosBubble;
-		start = clock();
+		
+		gettimeofday(&start, NULL);
+		
 		infosBubble = bubbleSort(nAux, numeros.n);
-		end = clock();
-		infosBubble.time = ((double) (end - start)) / CLK_TCK;
+		
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosBubble.time = mtime;
+		
 		addPoints(grafico, infosBubble, "Bubble Sort");
+		
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
+		
+		addLine(column, infosBubble ,"Bubble Sort");
+
 	}
 	if(strcmp(IupGetAttribute(checkb[2], "VALUE"), "ON") == 0){
 		stats infosShell;
-		start = clock();
+		
+		gettimeofday(&start, NULL);
 		infosShell = shellSort(nAux, numeros.n);
-		end = clock();
-		infosShell.time = ((double) (end - start)) / CLK_TCK;
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosShell.time = mtime;
+		
 		addPoints(grafico, infosShell, "Shell Sort");
-		copyKeys(numeros.v, nAux, 0, numeros.n);	
+		
+		copyKeys(numeros.v, nAux, 0, numeros.n);
+		
+		addLine(column, infosShell ,"Shell Sort");
 	}
 	if(strcmp(IupGetAttribute(checkb[3], "VALUE"), "ON") == 0){
 		stats infosMerge;
+		
 		infosMerge.qtdChan = 0;
 		infosMerge.qtdComp = 0;
 		infosMerge.qtdElements = numeros.n;
-		start = clock();
+		
+		gettimeofday(&start, NULL);
 		mergeSort(nAux, 0, numeros.n-1, &infosMerge);
-		end = clock();
-		infosMerge.time = ((double) (end - start)) / CLK_TCK;;
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosMerge.time = mtime;
+		
 		addPoints(grafico, infosMerge, "Merge Sort");
+		
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
+			
+		addLine(column, infosMerge ,"Merge Sort");
+		
 	}
 	if(strcmp(IupGetAttribute(checkb[4], "VALUE"), "ON") == 0){
 		stats infosQuick;
+		
 		infosQuick.qtdChan = 0;
 		infosQuick.qtdComp = 0;
 		infosQuick.qtdElements = numeros.n;
-		start = clock();
+		
+		gettimeofday(&start, NULL);
 		quickSort(nAux, 0, numeros.n-1, &infosQuick);
-		end = clock();
-		infosQuick.time = ((double) (end - start)) / CLK_TCK;
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosQuick.time = mtime;
+		
 		addPoints(grafico, infosQuick, "Quick Sort");
+		
 		copyKeys(numeros.v, nAux, 0, numeros.n);	
+		
+		addLine(column, infosQuick ,"Quick Sort");
 	}
 	if(strcmp(IupGetAttribute(checkb[5], "VALUE"), "ON") == 0){
 		stats infosRadix;
-		start = clock();
+		
+		gettimeofday(&start, NULL);		
 		infosRadix = radixSort(nAux, numeros.n);
-		end = clock();
-		infosRadix.time = ((double) (end - start)) / CLK_TCK;
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosRadix.time = mtime;
+		
 		addPoints(grafico, infosRadix, "Radix Sort");
+		
 		copyKeys(numeros.v, nAux, 0, numeros.n);
+		
+		addLine(column, infosRadix,"Radix Sort");
 	}
 	if(strcmp(IupGetAttribute(checkb[6], "VALUE"), "ON") == 0){
+		
 		stats infosSelection;
-		start = clock();
+		
+		gettimeofday(&start, NULL);
 		infosSelection = selectionSort(nAux, numeros.n);
-		end = clock();
-		infosSelection.time = ((double) (end - start)) / CLK_TCK;
+		gettimeofday(&end, NULL);
+		secs  = end.tv_sec  - start.tv_sec;
+		usecs = end.tv_usec - start.tv_usec;
+		mtime = ((secs) * 1000 + usecs/1000.0) + 0.5;
+		
+		infosSelection.time = mtime;
+		
 		addPoints(grafico, infosSelection, "Selection Sort");
+		
+		addLine(column, infosSelection ,"Selection Sort");
 	}	
+	
+
+	IupAppend(column[0], IupLabel("Total de numeros comparados:"));
+	sprintf(buff, "%d", numeros.n);
+	IupAppend(column[3], IupLabel(buff));
+	
 	
 	free(numeros.v);
 	free(nAux);
@@ -252,10 +371,12 @@ static int start(Ihandle *self){
 	vboxG[1] = IupVbox(grafico[1], NULL);
 	vboxG[2] = IupVbox(grafico[2], NULL);
 	
+	
 	IupSetAttribute(vboxG[0], "TABTITLE", "Gráfico de Comparações");
 	IupSetAttribute(vboxG[1], "TABTITLE", "Gráfico de Trocas");
 	IupSetAttribute(vboxG[2], "TABTITLE", "Gráfico de Tempo");
-	tabsI = IupTabs(vboxG[0], vboxG[1], vboxG[2], NULL);
+	IupSetAttribute(vboxG[3], "TABTITLE", "Sumário textual");
+	tabsI = IupTabs(vboxG[0], vboxG[1], vboxG[2], vboxG[3], NULL);
 
 	aux = IupHbox(tabsI, NULL);
 	IupSetAttribute(aux, "TABTITLE", "Resultado");
@@ -267,7 +388,16 @@ static int start(Ihandle *self){
 	IupRefresh(aux);
 	return IUP_DEFAULT;
 }
-
+void addLine(Ihandle** column, stats infos, char * method){
+	char buff[300];
+		IupAppend(column[0], IupLabel(method));
+		sprintf(buff, "%d", infos.qtdChan);
+		IupAppend(column[1], IupLabel(buff));
+		sprintf(buff, "%d", infos.qtdComp);
+		IupAppend(column[2], IupLabel(buff));
+		sprintf(buff, "%lf", infos.time);
+		IupAppend(column[3], IupLabel(buff));
+}
 array getNumbers(Ihandle *multitext){
 	char * i;
 	array infos;

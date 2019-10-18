@@ -1,7 +1,7 @@
 Software que recebe uma entrada de números e ordena eles usando vários algoritmos diferentes e mostra gráficos .
 
 Requisitos:
-- GCC $Version >= 4.0 (Testado apenas no GCC 6.3.0)
+- GCC --version >= 4.0 (Testado apenas no GCC 6.3.0)
 - Windows(Win32) ou Unix(GTK)
 
 	Pra compilar no windows usando bibliotecas dinâmicas:

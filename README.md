@@ -1,4 +1,4 @@
-Software que recebe uma entrada de números e ordena eles usando vários algoritmos diferentes e mostra gráficos .
+Software que recebe uma entrada de números, ordena eles usando vários algoritmos diferentes e mostra graficamente algumas comparações entre os diferentes algoritmos de ordenação implementados.
 
 Requisitos:
 - GCC --version >= 4.0 (Testado apenas no GCC 6.3.0)
